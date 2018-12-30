@@ -3,6 +3,10 @@ import selectOne from "jsonthefly/array/selectOne";
 import ValidationResult from "./ValidationResult";
 import { AsyncValidationStatus, AsyncValidation } from "./AsyncValidation";
 
+function upperFirst(str) {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 // initial state is required
 //
 
