@@ -1,6 +1,6 @@
 {
   "name": "react-form-observer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "description": "This module helps you to implement a observer pattern with a state interface of Form, its update callbacks and view helper methods.",
   "repository": "wooheemusic/react-form-observer",
