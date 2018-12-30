@@ -104,40 +104,43 @@ class ReactFormObserver {
       if (!ReactFormObserver.hasName(prev, name)) {
         return null;
       }
-      const validationName = ReactFormObserver.getValidationName[name];
+      const validationName = ReactFormObserver.getValidationName(name);
       if (prev[validationName] === true) {
         const currentValue = prev[name];
-        const asyncValidator = asyncValidate(currentValue);
-        if (asyncValidator instanceof Promise) {
-          const asyncValidationName = ReactFormObserver.getAsyncValidationName(
-            name
-          );
-          asyncValidator.then(
-            ReactFormObserver.getAsyncValidationReducer.bind(this)(
-              asyncValidationName,
-              currentValue
-            ),
-            ReactFormObserver.getAsyncValidationErrorReducer.bind(this)(
-              asyncValidationName,
-              currentValue,
-              handleError
-            )
-          );
-          const asyncValidation = (prev[asyncValidationName] =
-            prev[asyncValidationName] || []);
-          const result = selectOne(asyncValidation, "value", currentValue);
-          if (!result) {
-            asyncValidation.push(
-              new AsyncValidation(currentValue, AsyncValidationStatus.PENDING)
+        const asyncValidationName = ReactFormObserver.getAsyncValidationName(
+          name
+        );
+        const asyncValidation = (prev[asyncValidationName] =
+          prev[asyncValidationName] || []);
+
+        const result = selectOne(asyncValidation, "value", currentValue);
+        if (!result || result.status === "ERROR") {
+          const asyncValidator = asyncValidate(currentValue);
+          if (asyncValidator instanceof Promise) {
+            asyncValidator.then(
+              ReactFormObserver.getAsyncValidationReducer.bind(this)(
+                asyncValidationName,
+                currentValue
+              ),
+              ReactFormObserver.getAsyncValidationErrorReducer.bind(this)(
+                asyncValidationName,
+                currentValue,
+                handleError
+              )
             );
-            return { [asyncValidationName]: [...asyncValidation] }; // for pure. this will vary on update strategies.
+          } else {
+            throw new TypeError("'asyncValidate' should return a promise.");
           }
-          if (result.statue === "ERROR") {
-            result.status = AsyncValidationStatus.PENDING;
-            return { [asyncValidationName]: [...asyncValidation] };
-          }
-        } else {
-          throw new TypeError("'asyncValidate' should return a promise.");
+        }
+        if (!result) {
+          asyncValidation.push(
+            new AsyncValidation(currentValue, AsyncValidationStatus.PENDING)
+          );
+          return { [asyncValidationName]: [...asyncValidation] }; // for pure. this will vary on update strategies.
+        }
+        if (result.status === "ERROR") {
+          result.status = AsyncValidationStatus.PENDING;
+          return { [asyncValidationName]: [...asyncValidation] };
         }
       }
       return null;

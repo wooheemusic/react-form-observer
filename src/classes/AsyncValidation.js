@@ -1,8 +1,8 @@
-const IDLE = 0x1222;
-const PENDING = 0x1223;
-const VALID = 0x1224;
-const INVALID = 0x1225;
-const ERROR = 0x1226;
+const IDLE = "IDLE";
+const PENDING = "PENDING";
+const VALID = "VALID";
+const INVALID = "INVALID";
+const ERROR = "ERROR";
 
 const AsyncValidationStatus = { IDLE, PENDING, VALID, INVALID, ERROR };
 
