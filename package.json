@@ -8,12 +8,15 @@
   "author": "wooheemusic <wooheemusic@gmail.com> (https://github.com/wooheemusic)",
   "main": "index.js",
   "scripts": {
-    "babel": "npx babel src -d dist",
-    "publish": "npm publish ./dist/"
+    "babel": "npx babel ./src -d ./",
+    "publish": "npm publish"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3"
+  },
+  "dependencies": {
+    "jsonthefly": "^1.8.1"
   }
 }
