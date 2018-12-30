@@ -65,7 +65,7 @@ class ReactFormObserver {
         let result;
         try {
           result = validate(value, prev, props);
-          if (!result instanceof ValidationResult) {
+          if (!(result instanceof ValidationResult)) {
             result = {
               value: false,
               message:
