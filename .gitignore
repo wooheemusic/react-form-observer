@@ -2,5 +2,7 @@
 
 /index.js
 
-/*/*
-!/src
+/*/
+
+!/src/
+!/examples/
