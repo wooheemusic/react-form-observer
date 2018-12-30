@@ -117,7 +117,11 @@ class ReactFormObserver {
               asyncValidationName,
               currentValue
             ),
-            handleError || function(err) {}
+            ReactFormObserver.getAsyncValidationErrorReducer.bind(this)(
+              asyncValidationName,
+              currentValue,
+              handleError
+            )
           );
           const asyncValidation = (prev[asyncValidationName] =
             prev[asyncValidationName] || []);
